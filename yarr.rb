@@ -1,5 +1,5 @@
 =begin
-  Copyright:: Copyright (c) 2010 bithive
+  Copyright:: Copyright (c) 2010 bithive (twitter: @bithive)
   License:: GPL (http://www.gnu.org/licenses/)
 
   Yarr provides subclasses of its base class, Finder, to locate and download
