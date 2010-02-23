@@ -1,5 +1,10 @@
 =begin
   Copyright (c) 2009 bithive
+  
+  "last.fm" finder for Yarr
+  
+  As a last resort.  Adapted from:
+  http://blog.sosedoff.com/2009/02/15/fetching-album-covers-from-lastfm-api/
  
   This file is part of Yarr.
  
@@ -35,7 +40,7 @@ module Yarr
         album = xml['album'][0]
         url   = album['image'][3]['content']
 
-        fetch('Front', url)
+        fetch(url)
       end
     end
   end

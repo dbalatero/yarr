@@ -1,5 +1,19 @@
 =begin
   Copyright (c) 2009 bithive
+  
+  "Album Art Exchange" finder for Yarr
+  
+  AAE has got a large collection of covers, all of which conform to a naming
+  convention which is easy to generate, meaning no actual search is required;
+  the request is the search.
+  
+  e.g. Weird Al - Bad Hair Day
+  
+  http://www.albumartexchange.com/gallery/images/public/we/weirda-badhai.jpg
+  http://www.albumartexchange.com/gallery/images/public/we/weirda-badhai_2.jpg
+  http://www.albumartexchange.com/gallery/images/public/we/weirda-badhai_<n>.jpg
+  
+  We simply make these requests and increment <n> until we get a 404.
  
   This file is part of Yarr.
  
@@ -33,7 +47,7 @@ module Yarr
       while cached?('Front', rv)
         v   += 1
         url = "#{base}_#{(v + 1).to_s.rjust(2,'0')}.jpg"
-        break unless rv = fetch('Front', url)
+        break unless rv = fetch(url)
       end
     end
   end

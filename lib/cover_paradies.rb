@@ -1,6 +1,15 @@
 =begin
   Copyright (c) 2009 bithive
  
+  "Cover Paradies" finder for Yarr
+  
+  The somewhat sketchy cover-paradies.to has a decent amount of artwork and
+  a search interface that is relatively easy to drive with mechanize.
+  
+  Their markup leaves something to be desired.  Instead of parsing the DOM,
+  the awkward loop here looks for lines containing the keywords 'Front' and
+  'Back' and then scans the previous line for the image URL.
+
   This file is part of Yarr.
  
   Yarr is free software: you can redistribute it and/or modify
@@ -44,7 +53,7 @@ module Yarr
           if line =~ /\(#{cover}\)/
             if href = /\.(\/res\/exe\/GetElement\.php\?ID=\d+)/.match(body[i - 1])
               url = PREFIX + href[1]
-              fetch(cover, url)
+              fetch(url, cover)
             end
           end
         end

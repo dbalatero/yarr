@@ -110,7 +110,7 @@ module Yarr
       fail! unless cached?
     end
     
-    def fetch(cover, url)
+    def fetch(url, cover = 'Front')
       version = next_version(cover)
       cmd = "wget #{CONFIG[:wget_options]} #{url} -O #{pathbase(cover, version)}.tmp"
 
