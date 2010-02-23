@@ -33,7 +33,6 @@ module Yarr
 
       if xml['status'] == 'ok' then
         album = xml['album'][0]
-        puts album.inspect
         url   = album['image'][3]['content']
 
         fetch('Front', url)
