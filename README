@@ -1,8 +1,10 @@
+SUMMARY
+
 Yarr provides subclasses of its base class, Finder, to locate and download
 album cover art from various sources.  You don't use Yarr::Finder directly:
   
-###
-  
+#!/usr/bin/ruby
+ 
 require 'yarr'
   
 finder = Yarr::LastFm.new('Artist Name', 'Album Title')
@@ -16,35 +18,51 @@ finder.find!
   
 finder.failed? # => true if no results
 finder.cached? # => true if there is a matching file on disk
-  
-###
-  
+
+DEPENDENCIES
+
+- wget
+- xml-simple
+- mechanize
+
+BACKGROUND
+
 Yarr supports multiple search backends for "eager" loading of covers; it is
 expected that multiple versions of a cover may be found even on a single search
 and that the user will sort through them later.
-  
+
 Files are stored on disk using a normalized hashed directory structure, e.g.:
-  
+
 /covers/we/weirdal/badhairday-front-0.jpg  # the first version of the front cover we found
 /covers/we/weirdal/badhairday-front-1.jpg  # the second version of the front cover
-  
+
 The CoverParadies finder will locate both "Front" and "Back" covers.
 If you do not want this, edit the ART_TYPES constant.
-  
+
 You must specify a base directory and last.fm API key in ~/.yarr for Yarr to
 work properly.  This YAML file is generated the first time you load Yarr:
-    
+
 --- 
 :lastfm_key: ""
 :wget_options: --user-agent="Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; .NET CLR 1.1.4322; .NET CLR 2.0.50727)"
 :image_dir: "/var/tmp/yarr/covers"
-  
+
 In order to make being nice to remote servers easier in scripts that use Yarr,
 
 - When art is not found, a .nyarr file is created in the directory tree where
   the artwork would normally go.  This file contains information that Yarr
   uses to know when it's failed previously.
-    
+
 - Between downloads, Yarr waits between 1 and 5 seconds before continuing.
-  
+
 - Yarr uses wget, so you can provide any options you'd like in ~/.yarr
+
+EXTENDING
+
+Have a look at the finder implementations in lib.  Your task is to find the URL
+to some artwork given @artist and @album, and then call fetch.  The only rules
+are that you must subclass Finder and define find(); it doesn't matter what find
+returns but nothing will be downloaded unless you call fetch().
+
+If your source has different types of artwork like cover-paradies.to then you
+can add a type string to ART_TYPES and pass it as an additional argument to fetch().
