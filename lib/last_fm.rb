@@ -24,20 +24,20 @@ require 'xmlsimple'
 module Yarr
   class LastFm < Finder
     def find
-    	artist = CGI.escape(@artist)
-    	album  = CGI.escape(@album)
+      artist = CGI.escape(@artist)
+      album  = CGI.escape(@album)
 
-    	path = "/2.0/?method=album.getinfo&api_key=#{CONFIG[:lastfm_key]}&artist=#{artist}&album=#{album}"
-    	data = Net::HTTP.get('ws.audioscrobbler.com', path)
-    	xml  = XmlSimple.xml_in(data)
+      path = "/2.0/?method=album.getinfo&api_key=#{CONFIG[:lastfm_key]}&artist=#{artist}&album=#{album}"
+      data = Net::HTTP.get('ws.audioscrobbler.com', path)
+      xml  = XmlSimple.xml_in(data)
 
     	if xml['status'] == 'ok' then
-    		album = xml['album'][0]
-    		puts album.inspect
-    		url   = album['image'][3]['content']
+        album = xml['album'][0]
+        puts album.inspect
+        url   = album['image'][3]['content']
 
-    		fetch('Front', url)
-    	end
+        fetch('Front', url)
+      end
     end
   end
 end

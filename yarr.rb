@@ -112,15 +112,15 @@ module Yarr
       
       @slug     = album
       @hashbase = "#{artist[0..1]}/#{artist}"
-   	  @dirbase  = "#{CONFIG[:image_dir]}/#{@hashbase}"
-   	  @filebase = album
-   	  @manifest = "#{@dirbase}/.nyarr"
+      @dirbase  = "#{CONFIG[:image_dir]}/#{@hashbase}"
+      @filebase = album
+      @manifest = "#{@dirbase}/.nyarr"
 
       if File.exist?(@manifest)   	  
-     	  @metadata = File.open(@manifest) {|f| YAML.load(f) }
-   	  else
-   	    @metadata = { self.class.to_s => {} }
-   	  end
+        @metadata = File.open(@manifest) {|f| YAML.load(f) }
+      else
+        @metadata = { self.class.to_s => {} }
+      end
     end
     
     def cached?(cover = nil, version = nil)
@@ -146,7 +146,6 @@ module Yarr
         :status => 'failed',
         :failed_at => Time.now.to_i
       }
-
       update_metadata
     end
     
@@ -166,17 +165,17 @@ module Yarr
     
     def fetch(cover, url)
       version = next_version(cover)
-
       cmd = "wget #{CONFIG[:wget_options]} #{url} -O #{pathbase(cover, version)}.tmp"
-	    IO.popen(cmd) do |pipe|
-	      Thread.new do
-	        sleep 0.75
-	        s = pipe.gets
-	        puts s unless s.nil?
-	      end.join(10)
-	    end
 
-	    if $?.success?
+      IO.popen(cmd) do |pipe|
+        Thread.new do
+          sleep 0.75
+          s = pipe.gets
+          puts s unless s.nil?
+        end.join(10)
+      end
+
+      if $?.success?
         rename_tmp_file(cover, version)
         rest
         return version
