@@ -31,7 +31,7 @@ module Yarr
       data = Net::HTTP.get('ws.audioscrobbler.com', path)
       xml  = XmlSimple.xml_in(data)
 
-    	if xml['status'] == 'ok' then
+      if xml['status'] == 'ok' then
         album = xml['album'][0]
         puts album.inspect
         url   = album['image'][3]['content']
